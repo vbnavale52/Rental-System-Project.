@@ -5,10 +5,7 @@ import javax.validation.constraints.NotNull;
 
 public class LoginDTO {
 	@NotNull
-	@Column(name = "user_name", length = 30, unique = true, nullable = false)
 	private String userName;
-	@Column(name = "password", length = 30, nullable = false)
-
 	@NotNull
 	private String password;
 

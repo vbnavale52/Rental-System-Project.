@@ -10,6 +10,7 @@ import com.rsys.dao.IUserRepository;
 import com.rsys.dto.LoginDTO;
 import com.rsys.exception.UserException;
 import com.rsys.pojos.entity.User;
+import com.rsys.pojos.entity.UserProfile;
 import com.rsys.services.interfaces.IAutenticationService;
 
 @Service
@@ -26,6 +27,7 @@ public class AutenticationServiceImpls implements IAutenticationService {
 	public User autenticateUser(LoginDTO loginRequest) {
 		Optional<User> optionalUser = userRepository.autenticateUser(loginRequest.getUserName(),loginRequest.getPassword());
 		User user=optionalUser.orElseThrow(()-> new  UserException("Please enter valid user name and password........."));
+		//return user.getUserProfile();
 		return user ;
 	}
 	

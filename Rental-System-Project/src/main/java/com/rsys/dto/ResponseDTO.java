@@ -5,17 +5,17 @@ import org.springframework.http.HttpStatus;
 public class ResponseDTO<T> 
 {
 	private HttpStatus status;
-	private T data;
+	private T result;
 	private String message;
 	
 	public ResponseDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ResponseDTO(HttpStatus status, T data, String message) {
+	public ResponseDTO(HttpStatus status, T result, String message) {
 		super();
 		this.status = status;
-		this.data = data;
+		this.result = result;
 		this.message = message;
 	}
 
@@ -27,12 +27,12 @@ public class ResponseDTO<T>
 		this.status = status;
 	}
 
-	public T getData() {
-		return data;
+	public T getresult() {
+		return result;
 	}
 
-	public void setData(T data) {
-		this.data = data;
+	public void setresult(T result) {
+		this.result = result;
 	}
 
 	public String getMessage() {
@@ -45,7 +45,7 @@ public class ResponseDTO<T>
 
 	@Override
 	public String toString() {
-		return "ResponseDTO [status=" + status + ", data=" + data + ", message=" + message + "]";
+		return "ResponseDTO [status=" + status + ", result=" + result + ", message=" + message + "]";
 	}
 	
 }

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class UserProfileInDto {
+public class UserDetailsOutDTO {
 	@NotNull
 	private int userId;
 
@@ -21,7 +21,7 @@ public class UserProfileInDto {
 	@NotNull
 	private String lastName;
 	@NotNull
-	private Long phoneNumber;
+	private int phoneNumber;
 
 	@NotNull
 	private String email;
@@ -31,12 +31,12 @@ public class UserProfileInDto {
 
 	private MultipartFile profileImage;
 
-	public UserProfileInDto() {
+	public UserDetailsOutDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserProfileInDto(@NotNull int userId, @NotNull String firstName, @NotNull String lastName,
-			@NotNull Long phoneNumber, @NotNull String email, @NotNull LocalDate dateOfBirth,
+	public UserDetailsOutDTO(@NotNull int userId, @NotNull String firstName, @NotNull String lastName,
+			@NotNull int phoneNumber, @NotNull String email, @NotNull LocalDate dateOfBirth,
 			MultipartFile profileImage) {
 		super();
 		this.userId = userId;
@@ -88,11 +88,11 @@ public class UserProfileInDto {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public Long getPhoneNumber() {
+	public int getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(Long phoneNumber) {
+	public void setPhoneNumber(int phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

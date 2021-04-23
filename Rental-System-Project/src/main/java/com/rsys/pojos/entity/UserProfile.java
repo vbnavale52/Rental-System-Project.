@@ -25,27 +25,36 @@ public class UserProfile extends BaseEntity {
 	private String email;
 
 	@NotNull
-	//@Check(constraints = ((Period.between(dateOfBirth,LocalDate.now()).getYears())>18))
-	@Column( nullable = false)
+	@Column(length = 10, unique = false, nullable = false)
+	private Long phoneNumber;
+
+	@NotNull
+	// @Check(constraLongs =
+	// ((Period.between(dateOfBirth,LocalDate.now()).getYears())>18))
+	@Column(nullable = false)
 	private LocalDate dateOfBirth;
+	
+	@NotNull
+	@Column(length = 150, unique = false, nullable = false)
+	private String  profileImage;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	public UserProfile() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public UserProfile(@NotNull String firstName, @NotNull String lastName, @NotNull String email,
-			@NotNull @NotNull LocalDate dateOfBirth) {
+			@NotNull Long phoneNumber, @NotNull LocalDate dateOfBirth, @NotNull String profileImage) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.phoneNumber = phoneNumber;
 		this.dateOfBirth = dateOfBirth;
-		
-		
+		this.profileImage = profileImage;
 	}
 
 	public String getFirstName() {
@@ -72,12 +81,28 @@ public class UserProfile extends BaseEntity {
 		this.email = email;
 	}
 
-	public @NotNull LocalDate getDateOfBirth() {
+	public Long getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(Long phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(@NotNull LocalDate dateOfBirth) {
+	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
 	}
 
 	public User getUser() {
@@ -90,8 +115,7 @@ public class UserProfile extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "UserProfile [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", dateOfBirth="
-				+ dateOfBirth + ", getId()=" + getId() + "]";
+		return "UserProfile [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", phoneNumber="
+				+ phoneNumber + ", dateOfBirth=" + dateOfBirth + ", profileImage=" + profileImage + "]";
 	}
-
 }
