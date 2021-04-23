@@ -2,6 +2,7 @@ package com.rsys.services.impls;
 
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,8 @@ import com.rsys.exception.UserException;
 import com.rsys.pojos.entity.User;
 import static com.rsys.utils.UserValidation.*;
 import com.rsys.services.interfaces.IUserServices;
+
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
 
 @Service
 @Transactional

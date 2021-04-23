@@ -45,6 +45,7 @@ public class UserProfile extends BaseEntity {
 		this.email = email;
 		this.dateOfBirth = dateOfBirth;
 		
+		
 	}
 
 	public String getFirstName() {
