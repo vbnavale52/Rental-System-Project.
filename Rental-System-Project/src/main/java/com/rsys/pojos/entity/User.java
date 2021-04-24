@@ -39,9 +39,6 @@ public class User extends BaseEntity {
 	@OneToOne(targetEntity = UserProfile.class, mappedBy = "user")
 	private UserProfile userProfile;
 	
-	@OneToOne(targetEntity = RentLine.class, mappedBy = "user")
-	private RentLine rentLine;
-
 	@JsonIgnore
 	@OneToMany(targetEntity = RentBooking.class, mappedBy = "user")
 	private List<RentBooking> rentBooking = new ArrayList<>();

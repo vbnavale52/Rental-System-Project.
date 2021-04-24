@@ -1,6 +1,7 @@
 package com.rsys.pojos.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -12,10 +13,8 @@ public class RentLine extends BaseEntity {
 
 	private double grandTotal;
 
-	@JsonIgnore
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id", nullable = true)
-	private User user;
+	@Column(name = "user_id", nullable = true)
+	private int userId;
 
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
@@ -39,12 +38,12 @@ public class RentLine extends BaseEntity {
 		this.grandTotal = grandTotal;
 	}
 
-	public User getUser() {
-		return user;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public RentalEquiepment getEquiepment() {
