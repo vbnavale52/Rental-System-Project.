@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class UserProfile extends BaseEntity {
 
@@ -24,23 +26,28 @@ public class UserProfile extends BaseEntity {
 	@Column(name = "email", length = 30, unique = true, nullable = false)
 	private String email;
 
+	@Column( length = 30, unique = true, nullable = false)
+	private String idNumber;
+
 	@NotNull
-	@Column(length = 10, unique = false, nullable = false)
+	@Column(length = 10, nullable = true)
 	private Long phoneNumber;
 
 	@NotNull
-	// @Check(constraLongs =
-	// ((Period.between(dateOfBirth,LocalDate.now()).getYears())>18))
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
-	
-	@NotNull
-	@Column(length = 150, unique = false, nullable = false)
-	private String  profileImage;
 
+	private String profileImage;
+
+	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
+
+	@JsonIgnore
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id", nullable = true)
+	private UserAddress userAddress;
 
 	public UserProfile() {
 
@@ -111,6 +118,22 @@ public class UserProfile extends BaseEntity {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getIdNumber() {
+		return idNumber;
+	}
+
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
+	}
+
+	public UserAddress getUserAddress() {
+		return userAddress;
+	}
+
+	public void setUserAddress(UserAddress userAddress) {
+		this.userAddress = userAddress;
 	}
 
 	@Override

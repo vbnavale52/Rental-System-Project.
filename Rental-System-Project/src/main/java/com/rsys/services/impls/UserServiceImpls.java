@@ -24,10 +24,8 @@ import com.rsys.services.interfaces.IUserServices;
 public class UserServiceImpls implements IUserServices {
 	@Autowired
 	private IUserRepository userRepository;
-	
-	private IUserProfileRepository userProfileRepository;
 	@Autowired
-	private ICloudinaryService cloudinaryService;
+	private IUserProfileRepository userProfileRepository;
 
 	public UserServiceImpls() {
 
@@ -38,7 +36,6 @@ public class UserServiceImpls implements IUserServices {
 		userNameValidation(newUser.getUserName());
 		userNameDuplication(userRepository.findAll(), newUser.getUserName());
 		passwordValidation(newUser.getPassword(), newUser.getConfirmPassword());
-
 		return userRepository.save(newUser);
 	}
 
@@ -51,8 +48,10 @@ public class UserServiceImpls implements IUserServices {
 
 	@Override
 	public UserProfile addUserProfile(UserProfileInDto newUser) {
-		Optional<User> optionalUser=userRepository.findById(newUser.getUserId());
-		User user = optionalUser.orElseThrow(()-> new UserException("User is not registered please register...... "));
+		System.out.println(newUser.getUserId());
+		Optional<User> optionalUser = userRepository.findById(newUser.getUserId());
+		 User user = optionalUser.orElseThrow(() -> new UserException("User is not registered please register...... "));
+		System.out.println(user);
 		UserProfile validatedUser = new UserProfile();
 		validatedUser.setFirstName(newUser.getFirstName());
 		validatedUser.setLastName(newUser.getLastName());
@@ -60,16 +59,21 @@ public class UserServiceImpls implements IUserServices {
 		validatedUser.setEmail(newUser.getEmail());
 		validatedUser.setPhoneNumber(newUser.getPhoneNumber());
 		validatedUser.setUser(user);
-		validatedUser.setProfileImage(cloudinaryService.uploadFile(newUser.getProfileImage()));
-		return userProfileRepository.save(validatedUser);
+		validatedUser.setProfileImage(newUser.getProfileImage());
+		System.out.println(validatedUser + "   " + newUser.getProfileImage().length());
+		UserProfile profile = userProfileRepository.save(validatedUser);
+		user.setUserProfile(validatedUser);
+		userRepository.save(user);
+		return profile;
 	}
 
 	@Override
 	public UserProfile getUserProfile(int userId) {
 		Optional<User> optionalUser = userRepository.findById(userId);
 		User user = optionalUser.orElseThrow(() -> new UserException("user is no found ......."));
-		Optional<UserProfile> optionalUserProfile =userProfileRepository.getUserProfile(user);
-		UserProfile userProfile = optionalUserProfile.orElseThrow(() -> new UserException("user profile  no found .... " + userId));
-		return null;
+		Optional<UserProfile> optionalUserProfile = userProfileRepository.getUserProfile(user);
+		UserProfile userProfile = optionalUserProfile
+				.orElseThrow(() -> new UserException("user profile  no found .... " + userId));
+		return userProfile;
 	}
 }

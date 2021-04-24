@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rsys.dto.ResponseDTO;
 import com.rsys.dto.UserProfileInDto;
 import com.rsys.pojos.entity.User;
 import com.rsys.pojos.entity.UserProfile;
+import com.rsys.services.interfaces.ICloudinaryService;
 import com.rsys.services.interfaces.IUserServices;
 
 @RestController
@@ -23,6 +25,8 @@ import com.rsys.services.interfaces.IUserServices;
 public class UserController {
 	@Autowired
 	private IUserServices userServices;
+	@Autowired
+	private ICloudinaryService cloudinaryService;
 
 	public UserController() {
 		System.out.println("User controller invoked...............");
@@ -41,10 +45,11 @@ public class UserController {
 	}
 	
 	@PostMapping("/user_profile")
-	public ResponseDTO<?> addUserProfile(@RequestBody UserProfileInDto newUser) {
+	public ResponseDTO<?> addUserProfile( @RequestBody   UserProfileInDto newUser) {
 		try {
+			System.out.println(newUser);		
 			UserProfile profileDetails = userServices.addUserProfile(newUser);
-			return new ResponseDTO<>(HttpStatus.OK, profileDetails, "User profile detrails added successfully........");
+			return new ResponseDTO<>(HttpStatus.OK, profileDetails, "User profile details added successfully........");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR, null, e.getMessage());

@@ -1,18 +1,17 @@
 package com.rsys.pojos.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rsys.pojos.enums.UserRole;
@@ -24,22 +23,28 @@ public class User extends BaseEntity {
 	@NotNull
 	@Column(name = "user_name", length = 30, unique = true, nullable = false)
 	private String userName;
-	
-	@NotNull
-	@Column(name = "password", length = 30, nullable = false)	
-	private String password;
 
 	@NotNull
+	@Column(name = "password", length = 30, nullable = false)
+	private String password;
+
 	@Transient
 	private String confirmPassword;
 
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false/*, columnDefinition = "varchar(10) default 'CUSTOMER'"*/)
+	@Column(nullable = false/* , columnDefinition = "varchar(10) default 'CUSTOMER'" */)
 	private UserRole userRole = UserRole.CUSTOMER;
 
-	@JsonIgnore
+	// @JsonIgnore
 	@OneToOne(targetEntity = UserProfile.class, mappedBy = "user")
 	private UserProfile userProfile;
+	
+	@OneToOne(targetEntity = RentLine.class, mappedBy = "user")
+	private RentLine rentLine;
+
+	@JsonIgnore
+	@OneToMany(targetEntity = RentBooking.class, mappedBy = "user")
+	private List<RentBooking> rentBooking = new ArrayList<>();
 
 	public User() {
 
@@ -54,12 +59,12 @@ public class User extends BaseEntity {
 		this.userRole = userRole;
 	}
 
-
+	
 	public String getUserName() {
 		return userName;
 	}
 
-	public void setUserName(@NotNull  String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
@@ -67,7 +72,7 @@ public class User extends BaseEntity {
 		return password;
 	}
 
-	public void setPassword( @NotNull String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -75,7 +80,7 @@ public class User extends BaseEntity {
 		return confirmPassword;
 	}
 
-	public void setConfirmPassword(@NotNull String confirmPassword) {
+	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
 
@@ -93,6 +98,14 @@ public class User extends BaseEntity {
 
 	public void setUserProfile(UserProfile userProfile) {
 		this.userProfile = userProfile;
+	}
+
+	public List<RentBooking> getRentBooking() {
+		return rentBooking;
+	}
+
+	public void setRentBooking(List<RentBooking> rentBooking) {
+		this.rentBooking = rentBooking;
 	}
 
 	@Override

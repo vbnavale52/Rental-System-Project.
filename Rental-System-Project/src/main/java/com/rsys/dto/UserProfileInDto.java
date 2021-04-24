@@ -1,16 +1,17 @@
+
 package com.rsys.dto;
 
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.web.multipart.MultipartFile;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 public class UserProfileInDto {
 	@NotNull
 	private int userId;
@@ -20,6 +21,7 @@ public class UserProfileInDto {
 
 	@NotNull
 	private String lastName;
+
 	@NotNull
 	private Long phoneNumber;
 
@@ -27,23 +29,23 @@ public class UserProfileInDto {
 	private String email;
 
 	@NotNull
+	private String idNumber;
+
+	@NotNull
 	private LocalDate dateOfBirth;
 
-	private MultipartFile profileImage;
-
-	public UserProfileInDto() {
-		// TODO Auto-generated constructor stub
-	}
+	private String profileImage;
 
 	public UserProfileInDto(@NotNull int userId, @NotNull String firstName, @NotNull String lastName,
-			@NotNull Long phoneNumber, @NotNull String email, @NotNull LocalDate dateOfBirth,
-			MultipartFile profileImage) {
+			@NotNull Long phoneNumber, @NotNull String email, @NotNull String idNumber, @NotNull LocalDate dateOfBirth,
+			String profileImage) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
+		this.idNumber = idNumber;
 		this.dateOfBirth = dateOfBirth;
 		this.profileImage = profileImage;
 	}
@@ -52,7 +54,7 @@ public class UserProfileInDto {
 		return userId;
 	}
 
-	public void setUserId(@NotNull int userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
@@ -72,12 +74,28 @@ public class UserProfileInDto {
 		this.lastName = lastName;
 	}
 
+	public Long getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(Long phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getIdNumber() {
+		return idNumber;
+	}
+
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
 	}
 
 	public LocalDate getDateOfBirth() {
@@ -88,20 +106,19 @@ public class UserProfileInDto {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public Long getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(Long phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public MultipartFile getProfileImage() {
+	public String getProfileImage() {
 		return profileImage;
 	}
 
-	public void setProfileImage(MultipartFile profileImage) {
+	public void setProfileImage(String profileImage) {
 		this.profileImage = profileImage;
+	}
+
+	@Override
+	public String toString() {
+		return "UserProfileInDto [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", phoneNumber=" + phoneNumber + ", email=" + email + ", idNumber=" + idNumber + ", dateOfBirth="
+				+ dateOfBirth + ", profileImage=" + profileImage + "]";
 	}
 
 }
