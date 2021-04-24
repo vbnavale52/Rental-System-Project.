@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/rental-system-project-front-end1
 /.pnp
 .pnp.js
 
