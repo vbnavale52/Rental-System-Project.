@@ -19,7 +19,7 @@ public class RentLine extends BaseEntity {
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "equiepment_id", nullable = true)
-	private RentalEquiepment equiepment;
+	private RentalEquipment equiepment;
 
 	public RentLine() {
 
@@ -46,11 +46,11 @@ public class RentLine extends BaseEntity {
 		this.userId = userId;
 	}
 
-	public RentalEquiepment getEquiepment() {
+	public RentalEquipment getEquiepment() {
 		return equiepment;
 	}
 
-	public void setEquiepment(RentalEquiepment equiepment) {
+	public void setEquiepment(RentalEquipment equiepment) {
 		this.equiepment = equiepment;
 	}
 

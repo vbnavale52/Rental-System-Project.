@@ -25,7 +25,7 @@ public class BookingDetail extends BaseEntity {
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "equipement_id", nullable = true)
-	private RentalEquiepment rentalEquiepment;
+	private RentalEquipment rentalEquiepment;
 
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "booking_id")
@@ -85,11 +85,11 @@ public class BookingDetail extends BaseEntity {
 		this.finalRent = finalRent;
 	}
 
-	public RentalEquiepment getRentalEquiepment() {
+	public RentalEquipment getRentalEquiepment() {
 		return rentalEquiepment;
 	}
 
-	public void setRentalEquiepment(RentalEquiepment rentalEquiepment) {
+	public void setRentalEquiepment(RentalEquipment rentalEquiepment) {
 		this.rentalEquiepment = rentalEquiepment;
 	}
 

@@ -21,7 +21,7 @@ public class Category extends BaseEntity {
 	private String categoryImage;
 
 	@OneToMany(mappedBy = "category")
-	private List<RentalEquiepment> product;
+	private List<RentalEquipment> equipments;
 
 	public Category() {
 
@@ -49,18 +49,17 @@ public class Category extends BaseEntity {
 		this.categoryImage = categoryImage;
 	}
 
-	public List<RentalEquiepment> getProduct() {
-		return product;
+	public List<RentalEquipment> getEquipments() {
+		return equipments;
 	}
 
-	public void setProduct(List<RentalEquiepment> product) {
-		this.product = product;
+	public void setEquipments(List<RentalEquipment> equipments) {
+		this.equipments = equipments;
 	}
 
 	@Override
 	public String toString() {
-		return "Category [categoryName=" + categoryName + ", categoryImage=" + categoryImage + ", product=" + product
-				+ "]";
+		return "Category [categoryName=" + categoryName + ", categoryImage=" + categoryImage + "]";
 	}
 
 }

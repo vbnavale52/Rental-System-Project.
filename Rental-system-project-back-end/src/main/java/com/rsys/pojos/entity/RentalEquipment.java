@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "rental_equipement")
-public class RentalEquiepment extends BaseEntity {
+@Table(name = "rental_equipment")
+public class RentalEquipment extends BaseEntity {
 
 	@Column(length = 50, nullable = false, unique = true)
-	private String equipementName;
+	private String equipmentName;
 
 	@Column(length = 50, nullable = false)
 	private String brand;
@@ -42,19 +42,19 @@ public class RentalEquiepment extends BaseEntity {
 	private RentLine rentLine;
 
 	@ManyToOne(cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "equipement_category", nullable = false)
+	@JoinColumn(name = "equipment_category", nullable = false)
 	private Category category;
 	
 	
 
-	public RentalEquiepment() {
+	public RentalEquipment() {
 	
 	}
 
-	public RentalEquiepment(String equipementName, String brand, int avialableQuantity, double rentPerDay,
+	public RentalEquipment(String equipmentName, String brand, int avialableQuantity, double rentPerDay,
 			double offerDiscount, double finalRent, double delayCharges, String image, String decription) {
 		super();
-		this.equipementName = equipementName;
+		this.equipmentName = equipmentName;
 		this.brand = brand;
 		this.avialableQuantity = avialableQuantity;
 		this.rentPerDay = rentPerDay;
@@ -65,12 +65,12 @@ public class RentalEquiepment extends BaseEntity {
 		this.decription = decription;
 	}
 
-	public String getEquipementName() {
-		return equipementName;
+	public String getEquipmentName() {
+		return equipmentName;
 	}
 
-	public void setEquipementName(String equipementName) {
-		this.equipementName = equipementName;
+	public void setEquipmentName(String equipmentName) {
+		this.equipmentName = equipmentName;
 	}
 
 	public String getBrand() {
@@ -147,7 +147,7 @@ public class RentalEquiepment extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "RentalEquiepment [equipementName=" + equipementName + ", brand=" + brand + ", avialableQuantity="
+		return "RentalEquiepment [equipmentName=" + equipmentName + ", brand=" + brand + ", avialableQuantity="
 				+ avialableQuantity + ", rentPerDay=" + rentPerDay + ", offerDiscount=" + offerDiscount + ", finalRent="
 				+ finalRent + ", delayCharges=" + delayCharges + ", image=" + image + ", decription=" + decription
 				+ ", getId()=" + getId() + "]";

@@ -53,7 +53,8 @@ public class CategoryServiceImpl implements ICategoryService {
 	@Override
 	public Category getCategoryByName(@NotNull String catName) {
 		Optional<Category> optionalUser = categoryRepository.findByCategoryName(catName);
-		Category category = optionalUser.orElseThrow(() -> new UserException("Category is not found with name " + catName));
+		Category category = optionalUser
+				.orElseThrow(() -> new UserException("Category is not found with name " + catName));
 		return category;
 	}
 
