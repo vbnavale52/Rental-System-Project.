@@ -18,12 +18,13 @@ import com.rsys.pojos.entity.RentalEquipment;
 import com.rsys.services.interfaces.IRentalEquipmentService;
 
 @RestController
-@RequestMapping("/api/equipment")
 @CrossOrigin
+@RequestMapping("/api/equipment")
+
 public class RentalEquipmentController {
 
 	@Autowired
-	IRentalEquipmentService equipmentService;
+	private IRentalEquipmentService equipmentService;
 
 	@GetMapping("/fetch-equipment")
 	public ResponseDTO<?> getAllEquipment() {

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.Async;
 
 import com.cloudinary.Cloudinary;
 
@@ -30,3 +31,6 @@ public class ApplicationCloudConfiguration {
 		return cloudinary;
 	}
 }
+
+
+

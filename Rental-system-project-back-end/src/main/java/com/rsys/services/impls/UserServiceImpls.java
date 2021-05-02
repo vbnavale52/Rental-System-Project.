@@ -58,6 +58,7 @@ public class UserServiceImpls implements IUserServices {
 		validatedUser.setDateOfBirth(newUser.getDateOfBirth());
 		validatedUser.setEmail(newUser.getEmail());
 		validatedUser.setPhoneNumber(newUser.getPhoneNumber());
+		validatedUser.setIdNumber(newUser.getIdNumber());
 		validatedUser.setUser(user);
 		validatedUser.setProfileImage(newUser.getProfileImage());
 		System.out.println(validatedUser + "   " + newUser.getProfileImage().length());

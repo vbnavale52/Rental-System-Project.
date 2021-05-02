@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rsys.dto.ForgotPasswordDto;
 import com.rsys.dto.LoginDTO;
+import com.rsys.dto.ResetPasswordDTO;
 import com.rsys.dto.ResponseDTO;
 import com.rsys.pojos.entity.User;
 import com.rsys.services.interfaces.IAutenticationService;
@@ -48,6 +49,15 @@ public class AutenticationController {
 			return new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR, null, e.getMessage());
 		}
 	}
+	@PostMapping("/reset-password")
+	public ResponseDTO<?> forgotPassword(@RequestBody ResetPasswordDTO resetPasswordDTO  ) {
 
+	  try {
+		  User autenticatedUser = autenticationService.resetPassword(resetPasswordDTO);
+			return new ResponseDTO<>(HttpStatus.OK, autenticatedUser, "You are successfully logged in........");
+		} catch (Exception e) {
+			return new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR, null, e.getMessage());
+		}
 
+	}
 }

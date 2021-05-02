@@ -38,10 +38,13 @@ public class User extends BaseEntity {
 	// @JsonIgnore
 	@OneToOne(targetEntity = UserProfile.class, mappedBy = "user")
 	private UserProfile userProfile;
-	
+
 	@JsonIgnore
 	@OneToMany(targetEntity = RentBooking.class, mappedBy = "user")
 	private List<RentBooking> rentBooking = new ArrayList<>();
+	@JsonIgnore
+	@OneToOne(targetEntity = PasswordResetToken.class, mappedBy = "user")
+	private PasswordResetToken passwordResetToken;
 
 	public User() {
 
@@ -56,7 +59,6 @@ public class User extends BaseEntity {
 		this.userRole = userRole;
 	}
 
-	
 	public String getUserName() {
 		return userName;
 	}
@@ -103,6 +105,14 @@ public class User extends BaseEntity {
 
 	public void setRentBooking(List<RentBooking> rentBooking) {
 		this.rentBooking = rentBooking;
+	}
+
+	public PasswordResetToken getPasswordResetToken() {
+		return passwordResetToken;
+	}
+
+	public void setPasswordResetToken(PasswordResetToken passwordResetToken) {
+		this.passwordResetToken = passwordResetToken;
 	}
 
 	@Override

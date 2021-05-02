@@ -13,7 +13,7 @@ public interface IRentalEquipmentRepository extends JpaRepository<RentalEquipmen
 
 	Optional<RentalEquipment> findByEquipmentName(String equipName);
 
-	@Query(value = "select e from RentalEquipment where e.category=:category ")
+	@Query(value = "select e from RentalEquipment e where e.category=:category ")
 	List<RentalEquipment> getEquipmentByCategoryName(Category category);
 
 }
