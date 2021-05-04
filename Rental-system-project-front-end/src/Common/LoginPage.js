@@ -1,7 +1,9 @@
 
 import React, { Component } from 'react'
 //import SigninIcon from "./images/login-icon-png.png"
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import Popup from "./PopUp"
+import {Modal} from "react-responsive-modal";
 import AuthService from "../Services/AuthService";
 import UserService from "../Services/UserServices";
 class LoginPage extends Component {
@@ -10,7 +12,7 @@ class LoginPage extends Component {
     super(props)
     this.state = {
       id: '',
-      userName:'',
+      userName: '',
       firstName: '',
       lastName: '',
       email: '',
@@ -20,12 +22,18 @@ class LoginPage extends Component {
       dateOfBirth: '',
       userRole: '',
       message: '',
+  
     }
     this.authenticateUser = this.authenticateUser.bind(this);
     //  this.getCartSize = this.getCartSize.bind(this);
     // this.updateUserCart = this.updateUserCart.bind(this);
   }
 
+  
+  handleReset(e) {
+    e.preventDefault();
+  
+  }
   onChange = (e) =>
     this.setState({ [e.target.name]: e.target.value });
   /*
@@ -54,13 +62,13 @@ class LoginPage extends Component {
       .then(res => {
         let user = res.data.result;
         console.log(user);
-        user === null && this.setState({ message: 'Invalid Login Credentials', userName: "", password: "" }) ;
+        user === null && this.setState({ message: 'Invalid Login Credentials', userName: "", password: "" });
         user !== null && this.setState({
-          id : user.id,
+          id: user.id,
           userName: user.userName,
           userRole: user.userRole,
           message: '',
-        });   
+        });
         user != null && alert("User Login successfully")
         user != null && this.setState({ message: 'User Login successfully.' });
         user != null && window.localStorage.setItem("status", true);
@@ -69,7 +77,7 @@ class LoginPage extends Component {
         user != null && window.localStorage.setItem("user_role", user.userRole);
       });
 
-      UserService.getUserProfile(this.state.id)
+    UserService.getUserProfile(this.state.id)
       .then(res => {
         let user = res.data.result;
         user == null && this.props.history.push('/user_profile');
@@ -82,25 +90,29 @@ class LoginPage extends Component {
         user != null && window.localStorage.setItem("user_image", user.profileImage);
       });
 
-        //user != null && user.admin === false && this.updateUserCart();
-        /*
-        if (user != null && user.admin) {
-          user != null && window.localStorage.setItem("user_role", 'ADMIN');
-          user != null && user.admin === true && this.props.history.push('/admin');
-        }
-        else {
-          user != null && window.localStorage.setItem("user_role", 'CUSTOMER');
-          user != null && user.admin === false && this.props.history.push('/home');
-        }
-  */
+    //user != null && user.admin === false && this.updateUserCart();
+    /*
+    if (user != null && user.admin) {
+      user != null && window.localStorage.setItem("user_role", 'ADMIN');
+      user != null && user.admin === true && this.props.history.push('/admin');
+    }
+    else {
+      user != null && window.localStorage.setItem("user_role", 'CUSTOMER');
+      user != null && user.admin === false && this.props.history.push('/home');
+    }
+*/
 
-      
+
 
 
   }
   render() {
+ 
     return (
       <div>
+        <br />
+        <br />
+        <br />
         <div className="card img-rounded col-md-4 offset-md-4 offset-md-4 " style={{ borderRadius: "25px", backgroundColor: "OldLace" }}>
           <h2 className="text-center card-title"> <b>Sign In </b></h2>
           <br />
@@ -134,19 +146,21 @@ class LoginPage extends Component {
                 required />
             </div>
           </div>
+
           <div className="mb-3">
             <button className="btn btn-success float-start" onClick={this.authenticateUser}>
               Login
              </button>
             <div className="float-end" style={{ marginLeft: "10px" }}>
-              Click here to <Link to="/forgot">Forgot Password</Link>
+              Click here to <button className="btn btn-primary-outline" onClick={this.handleReset} >
+           
+              Forgot Password</button>
             </div>
             <div className="float-end">
               New User? <Link to="/create-account">Create Account here</Link>
             </div>
             <br></br>
           </div>
-
         </div>
       </div>
     );

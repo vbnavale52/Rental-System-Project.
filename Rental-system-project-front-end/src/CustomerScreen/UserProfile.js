@@ -9,6 +9,7 @@ class UserProfile extends Component {
             firstName: "",
             lastName: "",
             email: "",
+            idNumber: "",
             phoneNumber: "",
             dateOfBirth: "",
             profileImage: "",
@@ -48,7 +49,8 @@ class UserProfile extends Component {
             dateOfBirth: this.state.dateOfBirth,
             phoneNumber: this.state.phoneNumber,
             email: this.state.email,
-            profileImage:this.state.profileImage ,
+            idNumber: this.state.idNumber,
+            profileImage: this.state.profileImage,
         };
         UserService.userProfile(saveUser).then((res) => {
             res.data.result != null && alert("SignUp successfully");
@@ -63,6 +65,7 @@ class UserProfile extends Component {
                 dateOfBirth: user.dateOfBirth,
                 phoneNumber: user.phoneNumber,
                 profileImage: user.profileImage,
+                idNumber: user.idNumber,
                 message: '',
             });
             user != null && window.localStorage.setItem("user_fname", user.firstName);
@@ -71,6 +74,7 @@ class UserProfile extends Component {
             user != null && window.localStorage.setItem("user_dob", user.dateOfBirth);
             user != null && window.localStorage.setItem("user_phone", user.phoneNumber);
             user != null && window.localStorage.setItem("user_image", user.profileImage);
+            user != null && window.localStorage.setItem("user_idNum", user.idNumber);
             if (res.data.result === null) {
                 alert(res.data.message);
                 this.setState({
@@ -91,8 +95,11 @@ class UserProfile extends Component {
     render() {
         return (
             <div>
-                <div className="main " style={{ backgroundColor: 'OldLace' }} >
-                    <h2 style={{ color: "chocolate" }}>Sign Up New User </h2>
+            <br/>
+            <br/>
+            <br/>
+                <div className="card img-rounded col-md-4 offset-md-4 offset-md-4" style={{ backgroundColor: 'OldLace' }} >
+                    <h2 className="text-center" style={{ color: "chocolate" }}>Sign Up New User </h2>
                     <div className="card-body ">
                         <img style={{ width: "190px" }}
                             src={window.localStorage.getItem("user_image")}
@@ -171,6 +178,20 @@ class UserProfile extends Component {
                                         className="form-control"
                                         name="email"
                                         value={this.state.email}
+                                        onChange={this.onChange}
+                                        required
+                                    />
+
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <label className="col-sm-3 col-form-label">Id Number</label>
+                                <div className="col-sm-8">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="idNumber"
+                                        value={this.state.idNumber}
                                         onChange={this.onChange}
                                         required
                                     />

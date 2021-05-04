@@ -4,8 +4,8 @@ class UserServices {
      registerNewUser(newUser) {
           return axios.post(USER_API_BASE_URL + '/user/signup/', newUser);
      }
-    async userProfile(newUser) {
-          return await axios.post(USER_API_BASE_URL + '/user/user_profile',  newUser);
+     async userProfile(newUser) {
+          return await axios.post(USER_API_BASE_URL + '/user/user_profile', newUser);
      }
      async fileUpload(file) {
           const config = {
@@ -15,7 +15,7 @@ class UserServices {
           }
           return await axios.post(USER_API_BASE_URL + '/upload', file, config);
      }
-    async getUserProfile(userId) {
+     async getUserProfile(userId) {
           return axios.get(USER_API_BASE_URL + '/user/user_profile/' + userId);
      }
 }
