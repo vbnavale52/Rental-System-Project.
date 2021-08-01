@@ -18,4 +18,6 @@ public interface ICategoryService {
 
 	Category getCategoryByName(@NotNull String catName);
 
+	Category addNewCategory(String catName, String url);
+
 }

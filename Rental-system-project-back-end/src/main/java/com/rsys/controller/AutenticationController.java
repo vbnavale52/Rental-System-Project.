@@ -20,43 +20,43 @@ import com.rsys.services.interfaces.IAutenticationService;
 @CrossOrigin
 @RequestMapping("/api/auth")
 public class AutenticationController {
-	
+
 	@Autowired
 	private IAutenticationService autenticationService;
-	
+
 	public AutenticationController() {
-		
+
 	}
-	
-	@PostMapping("/signin")
+
+	@PostMapping(Constant.SIGN_IN_ACTION)
 	public ResponseDTO<?> userLogin(@RequestBody LoginDTO loginRequest) {
 		try {
 			User autenticatedUser = autenticationService.autenticateUser(loginRequest);
-		//	System.out.println(autenticatedUser);
 			return new ResponseDTO<>(HttpStatus.OK, autenticatedUser, "You are successfully logged in........");
 		} catch (Exception e) {
 			return new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR, null, e.getMessage());
 		}
 	}
-	
-	@PutMapping("/forgot-password")
-	public ResponseDTO<?> forgotPassword(@RequestBody  ForgotPasswordDto forgotPasswordDto) {
+
+	@PutMapping(Constant.FORGOT_PASSWORD_ACTION)
+	public ResponseDTO<?> forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto) {
 		try {
 			User autenticatedUser = autenticationService.forgotPassword(forgotPasswordDto);
-		//	System.out.println(autenticatedUser);
-			return new ResponseDTO<>(HttpStatus.OK, autenticatedUser, "You are successfully logged in........");
+			return new ResponseDTO<>(HttpStatus.OK, autenticatedUser, "You are reseted successfully ........");
 		} catch (Exception e) {
 			return new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR, null, e.getMessage());
 		}
 	}
-	@PostMapping("/reset-password")
-	public ResponseDTO<?> forgotPassword(@RequestBody ResetPasswordDTO resetPasswordDTO  ) {
 
-	  try {
-		  User autenticatedUser = autenticationService.resetPassword(resetPasswordDTO);
-			return new ResponseDTO<>(HttpStatus.OK, autenticatedUser, "You are successfully logged in........");
+	@PostMapping(Constant.RESET_PASSWORD_ACTION)
+	public ResponseDTO<?> forgotPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+		try {
+			System.out.println(resetPasswordDTO);
+			User autenticatedUser = autenticationService.resetPassword(resetPasswordDTO);
+			return new ResponseDTO<>(HttpStatus.OK, autenticatedUser, "Please Check your email........");
 		} catch (Exception e) {
-			return new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR, null, e.getMessage());
+			e.printStackTrace();
+			return new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR, null, "Failed to send email .......");
 		}
 
 	}

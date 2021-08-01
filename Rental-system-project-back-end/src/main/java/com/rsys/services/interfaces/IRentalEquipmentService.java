@@ -20,4 +20,15 @@ public interface IRentalEquipmentService {
 
 	List<RentalEquipment> getEquipmentByCategoryName(@NotNull String catName);
 
+	RentalEquipment updateEquipmentById(@NotNull int equipId, RentalEquipment equipment);
+
+	 List<RentalEquipment> getEquipmentByCategoryId(@NotNull int catId);
+
+	List<RentalEquipment> getAllEquipmentForAdmin();
+
+	List<RentalEquipment> fetchEquipmentByCategoryId(int catId);
+
+	List<RentalEquipment> getLatestEquipment();
+
+
 }

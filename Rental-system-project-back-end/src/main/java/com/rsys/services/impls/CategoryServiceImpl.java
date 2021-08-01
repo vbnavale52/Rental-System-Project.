@@ -58,4 +58,10 @@ public class CategoryServiceImpl implements ICategoryService {
 		return category;
 	}
 
+	@Override
+	public Category addNewCategory(String catName, String categoryImage) {
+		Category category=new Category(catName, categoryImage);
+		return categoryRepository.save(category);
+	}
+
 }

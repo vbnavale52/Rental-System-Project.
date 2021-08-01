@@ -1,9 +1,13 @@
 package com.rsys.pojos.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class UserAddress extends BaseEntity {
@@ -25,11 +29,18 @@ public class UserAddress extends BaseEntity {
 	@NotNull
 	private int pinCode;
 
-	@OneToOne(targetEntity = UserProfile.class, mappedBy = "user")
+	@JsonIgnore
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "profile_id", nullable = true)
 	private UserProfile userProfile;
 
+	/*
+	 * @OneToOne(targetEntity = UserProfile.class, mappedBy = "user") private
+	 * UserProfile userProfile;
+	 */
+
 	public UserAddress() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public UserAddress(String homeNumber, @NotNull String society, @NotNull String area, @NotNull String city,
@@ -101,8 +112,8 @@ public class UserAddress extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "UserAddress [homeNumber=" + homeNumber + ", society=" + society + ", area=" + area + ", city=" + city
-				+ ", state=" + state + ", pinCode=" + pinCode + "]";
+		return  homeNumber + ", " + society + ",  " + area + ",  " + city
+				+ ", " + state + ", " + pinCode+".";
 	}
 
 }

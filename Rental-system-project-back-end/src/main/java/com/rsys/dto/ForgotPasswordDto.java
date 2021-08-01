@@ -1,20 +1,22 @@
 package com.rsys.dto;
 
 public class ForgotPasswordDto {
-	
+
 	private String userName;
 	private String password;
 	private String confirmPassword;
+	private String token;
 
 	public ForgotPasswordDto() {
 
 	}
 
-	public ForgotPasswordDto(String userName, String password, String confirmPassword) {
+	public ForgotPasswordDto(String userName, String password, String confirmPassword, String token) {
 		super();
 		this.userName = userName;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
+		this.token = token;
 	}
 
 	public String getUserName() {
@@ -41,10 +43,18 @@ public class ForgotPasswordDto {
 		this.confirmPassword = confirmPassword;
 	}
 
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	@Override
 	public String toString() {
 		return "ForgotPasswordDto [userName=" + userName + ", password=" + password + ", confirmPassword="
-				+ confirmPassword + "]";
+				+ confirmPassword + ", token=" + token + "]";
 	}
 
 }

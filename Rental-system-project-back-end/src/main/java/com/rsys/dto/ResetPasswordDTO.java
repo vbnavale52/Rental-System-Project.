@@ -1,8 +1,11 @@
 package com.rsys.dto;
 
-public class ResetPasswordDTO
-{
+import javax.validation.constraints.NotNull;
+
+public class ResetPasswordDTO {
+	@NotNull
 	private String userName;
+	@NotNull
 	private String email;
 
 	public ResetPasswordDTO() {
@@ -30,4 +33,10 @@ public class ResetPasswordDTO
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	@Override
+	public String toString() {
+		return "ResetPasswordDTO [userName=" + userName + ", email=" + email + "]";
+	}
+
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from '../Components/Navigation/Navbar';
+import Sidebar from '../Components/Navigation/Sidebar';
 //import validate from './validateInfo';
 //import useForm from './useForm';
 //import './Form.css';
@@ -92,90 +94,99 @@ class FormSignup extends React.Component {
     }
     render() {
         return (
-            <div className="container">
-                <div className="card-body">
-                    <div className="col-md-8 mt-0">
-                        <div className="card-mb-3 content">
-                            <form  >
-                                <h1>
-                                    Create your account by filling out the
-                                    information below.
-                                </h1>
-                                <div className="form-input row">
-                                    <label className="col-sm-3 col-form-label ml-3 ">User Name</label>
-                                    <div className="col-sm-7">
-                                        <input
-                                            className="form-control"
-                                            type='username'
-                                            name='userName'
-                                            placeholder='Enter your email'
-                                            value={this.state.userName}
-                                            onChange={this.onChange}
-                                        />
-                                        {this.state.errors.userName && <p className="alert alert-danger  ">{this.state.errors.userName}</p>}
-                                    </div>
+            <div>
+                <Navbar />
+                <div className="row ml-2 mt-2 mb-2 mr-2 ">
+                    <div className="col col-md-3 mt-1  ">
+                        <Sidebar />
+                    </div>
+                    <div className="col mt-0">
+                        <div className="card-mb-3 mt-0 content">
+                            <div style={{ backgroundColor: "lightgrey" }}>
+                                <br />
+                                <h2 className="text-center font-weight-bold">Sign Up </h2>
+                                <hr />
+                            </div>
+                            <div className="card-body mt-n5 ">
+                                <div className="card-body mt-n1 ">
+                                    <form  >
+                                        <div className="form-input row mt-4">
+                                            <label className="col-sm-3 col-form-label ml-3 ">User Name</label>
+                                            <div className="col-sm-7">
+                                                <input
+                                                    className="form-control"
+                                                    type='username'
+                                                    name='userName'
+                                                    placeholder='Enter your email'
+                                                    value={this.state.userName}
+                                                    onChange={this.onChange}
+                                                />
+                                                {this.state.errors.userName && <p className="alert alert-danger  ">{this.state.errors.userName}</p>}
+                                            </div>
+                                        </div>
+                                        <div className="form-input row mt-4">
+                                            <label className="col-sm-3 col-form-label ml-3 ">Email</label>
+                                            <div className="col-sm-7">
+                                                <input
+                                                    className="form-control"
+                                                    type='email'
+                                                    name='email'
+                                                    placeholder='Enter your email'
+                                                    value={this.state.email}
+                                                    onChange={this.onChange}
+                                                />
+                                                {this.state.errors.email && <p className="alert alert-danger ">{this.state.errors.email}</p>}
+                                            </div>
+                                        </div>
+                                        <div className="form-input row mt-4">
+                                            <label className="col-sm-3 col-form-label ml-3 ">password</label>
+                                            <div className="col-sm-7">
+                                                <input
+                                                    className="form-control"
+                                                    type='password'
+                                                    name='password'
+                                                    placeholder='Enter your password'
+                                                    value={this.state.password}
+                                                    onChange={this.onChange}
+                                                />
+                                                {this.state.errors.password && <p className="alert alert-danger ">{this.state.errors.password}</p>}
+                                            </div>
+                                        </div>
+                                        <div className="form-input row mt-4">
+                                            <label className="col-sm-3 col-form-label ml-3 ">Confirm Password</label>
+                                            <div className="col-sm-7">
+                                                <input
+                                                    className="form-control"
+                                                    type='password'
+                                                    name='confirmPassword'
+                                                    placeholder='Enter your confirm Password'
+                                                    value={this.state.confirmPassword}
+                                                    onChange={this.onChange}
+                                                />
+                                                {this.state.errors.confirmPassword && <p className="alert alert-danger  ">{this.state.errors.confirmPassword}</p>}
+                                            </div>
+                                        </div>
+                                        <div className="form-input row mt-4">
+                                            <label className="col-sm-3 col-form-label ml-3 ">Phone Number</label>
+                                            <div className="col-sm-7">
+                                                <input
+                                                    className="form-control"
+                                                    type='number'
+                                                    name='phoneNumber'
+                                                    placeholder='Enter your phone number'
+                                                    value={this.state.phoneNumber}
+                                                    onChange={this.onChange}
+                                                />
+                                                {this.state.errors.phoneNumber && <p className="alert alert-danger  ">{this.state.errors.phoneNumber}</p>}
+                                            </div>
+                                        </div>
+                                        <button className='btn btn-info' type='submit' onClick={this.handleSubmit}>Sign up</button>
+                                        <span className='lg-col-1'>
+                                            Already have an account? Login <Link to='/sign_in'>here</Link>
+                                        </span>
+                                    </form>
                                 </div>
-                                <div className="form-input row mt-2">
-                                    <label className="col-sm-3 col-form-label ml-3 ">Email</label>
-                                    <div className="col-sm-7">
-                                        <input
-                                            className="form-control"
-                                            type='email'
-                                            name='email'
-                                            placeholder='Enter your email'
-                                            value={this.state.email}
-                                            onChange={this.onChange}
-                                        />
-                                        {this.state.errors.email && <p className="alert alert-danger ">{this.state.errors.email}</p>}
-                                    </div>
-                                </div>
-                                <div className="form-input row mt-2">
-                                    <label className="col-sm-3 col-form-label ml-3 ">password</label>
-                                    <div className="col-sm-7">
-                                        <input
-                                            className="form-control"
-                                            type='password'
-                                            name='password'
-                                            placeholder='Enter your password'
-                                            value={this.state.password}
-                                            onChange={this.onChange}
-                                        />
-                                        {this.state.errors.password && <p className="alert alert-danger ">{this.state.errors.password}</p>}
-                                    </div>
-                                </div>
-                                <div className="form-input row mt-2">
-                                    <label className="col-sm-3 col-form-label ml-3 ">Confirm Password</label>
-                                    <div className="col-sm-7">
-                                        <input
-                                            className="form-control"
-                                            type='password'
-                                            name='confirmPassword'
-                                            placeholder='Enter your confirm Password'
-                                            value={this.state.confirmPassword}
-                                            onChange={this.onChange}
-                                        />
-                                        {this.state.errors.confirmPassword && <p className="alert alert-danger  ">{this.state.errors.confirmPassword}</p>}
-                                    </div>
-                                </div>
-                                <div className="form-input row mt-2">
-                                    <label className="col-sm-3 col-form-label ml-3 ">Phone Number</label>
-                                    <div className="col-sm-7">
-                                        <input
-                                            className="form-control"
-                                            type='number'
-                                            name='phoneNumber'
-                                            placeholder='Enter your phone number'
-                                            value={this.state.phoneNumber}
-                                            onChange={this.onChange}
-                                        />
-                                        {this.state.errors.phoneNumber && <p className="alert alert-danger  ">{this.state.errors.phoneNumber}</p>}
-                                    </div>
-                                </div>
-                                <button className='btn btn-info' type='submit' onClick={this.handleSubmit}>Sign up</button>
-                                <span className='lg-col-1'>
-                                    Already have an account? Login <Link to='/sign_in'>here</Link>
-                                </span>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

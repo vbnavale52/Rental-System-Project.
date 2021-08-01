@@ -1,7 +1,10 @@
 import React, { Link } from "react-router-dom";
-import "./ViewProfile.css";
+import "./Styles/ViewProfile.css";
 import { Component } from "react";
-import imges from "./Images/images.jpg";
+import Navbar from "../Components/Navigation/Navbar";
+import AllServices from "../Services/AllServices";
+import BookingsCard from "./BookingsCard";
+import AddressCard from "./AddressCard";
 class UserProfile extends Component {
     constructor(props) {
         super(props);
@@ -16,12 +19,37 @@ class UserProfile extends Component {
             profileImage: "",
             message: "",
             uploadFile: null,
+            bookings: [],
+            viewBooking: false,
+            address: {
+                homeNumber: "",
+                society: "",
+                area: "",
+                city: "",
+                state: "",
+                pinCode: "",
+            }
         };
-        // this.registerUser = this.registerUser.bind(this);
-        //this.changeImageHandler = this.changeImageHandler.bind(this);
-        //this.userProfilePicture = this.userProfilePicture.bind(this);
+        this.getUserAddress = this.getUserAddress.bind(this);
     }
+
+    getUserAddress = () => {
+        AllServices.getUserAddress(window.localStorage.getItem("user_id")).then((res) => {
+            let loadedAddress = res.data.result;
+            this.setState({ address: loadedAddress });
+        })
+    }
+
+    loadRentBookingHistory = () => {
+        AllServices.loadRentBookingHistory(JSON.parse(window.localStorage.getItem("user_id"))).then((res) => {
+            console.log(JSON.stringify(res.data.result))
+            this.setState({ bookings: res.data.result });
+        })
+    }
+
     componentDidMount() {
+        this.loadRentBookingHistory();
+        this.getUserAddress();
         this.setState({
             userId: window.localStorage.getItem("user_id"),
             userName: window.localStorage.getItem("user_name"),
@@ -35,110 +63,44 @@ class UserProfile extends Component {
         })
 
     }
-    /*
-        onChange = (event) => {
-            this.setState({
-                [event.target.name]: event.target.value
-            });
-        }
-
-        changeImageHandler = (event) => {
-            this.setState({ uploadFile: event.target.files[0] });
-            this.userProfilePicture()
-        }
-        async userProfilePicture() {
-            const formData = new FormData();
-            formData.append('file', this.state.uploadFile);
-            UserService.fileUpload(formData).then(res => {
-                res.data.result != null && this.setState({ profileImage: res.data.result });
-                console.log(res.data.result);
-                return res.data.result;
-            });
-        }
-
-        registerUser = (e) => {
-            e.preventDefault()
-                //this.userProfilePicture();
-            let saveUser = {
-                userId: window.localStorage.getItem("user_id"),
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                dateOfBirth: this.state.dateOfBirth,
-                phoneNumber: this.state.phoneNumber,
-                email: this.state.email,
-                idNumber: this.state.idNumber,
-                profileImage: this.state.profileImage,
-            };
-            UserService.userProfile(saveUser).then((res) => {
-                res.data.result != null && alert("SignUp successfully");
-                let user = res.data.result;
-                user != null && this.props.history.push('/user_profile');
-                user === null && this.setState({ message: 'Invalid Login Credentials', userName: "", password: "" });
-                user !== null && this.setState({
-                    // id : user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email,
-                    dateOfBirth: user.dateOfBirth,
-                    phoneNumber: user.phoneNumber,
-                    profileImage: user.profileImage,
-                    idNumber: user.idNumber,
-                    message: '',
-                });*/
-    /* user != null && window.localStorage.setItem("user_fname", user.firstName);
-user != null && window.localStorage.setItem("user_lname", user.lastName);
-user != null && window.localStorage.setItem("user_email", user.email);
-user != null && window.localStorage.setItem("user_dob", user.dateOfBirth);
-user != null && window.localStorage.setItem("user_phone", user.phoneNumber);
-user != null && window.localStorage.setItem("user_image", user.profileImage);
-user != null && window.localStorage.setItem("user_idNum", user.idNumber);
-if (res.data.result === null) {
-alert(res.data.message);
-this.setState({
-firstName: "",
-lastName: "",
-dateOfBirth: "",
-phoneNumber: "",
-email: "",
-profileImage: "",
-});
-this.props.history.push("/user_profile");
-} else {
-this.props.history.push("/signin");
-}
-})
-};
-cancel() {
-this.props.history.push('/home')
-} */
-
     render() {
         return (
-            <div className="container">
+            <div>
+                <Navbar />
                 <div className="main" >
-
                     <div className="row">
-                        <div className="col-md-4 mt-1">
-                            <div className="cart text-center sidebar">
-                                <div className="card-body">
+                        <div className="col-md-3 mt-1">
+                            <div className="cart sidebar rounded" style={{ backgroundColor: "black" }}>
+                                <div className="card-body rounded">
                                     <div className="mt-3">
                                         <img
-                                            src={imges}
+                                            src={this.state.profileImage}
                                             alt="profile-img"
                                             className="rounded-circle"
                                             style={{ width: "100%" }}
                                         />
+                                        <div className="text-center">
+                                            <h3 className="text-center">{this.state.userName}</h3>
+                                            <h4 className="text-center">Hi, {this.state.firstName}</h4>
+                                        </div>
                                     </div>
-                                    <div className="mt-3">
-                                        <h3>{this.state.userName}</h3>
-                                        <h4>{this.state.firstName}</h4>
+                                    <hr />
+                                    <div className="float-left ml-3">
+                                        <Link className="nav-link " to="/update-profile"><i class="fas fa-user-edit"></i>Update Profile </Link>
+                                        <Link className="nav-link " to="/update-address"><i class="far fa-address-card"></i>Update address </Link>
+                                        <Link className="nav-link " to="/update-password"><i class="far fa-address-card"></i>Update Password</Link>
+                                        <Link className="nav-link " to="/order-history"><i class="far fa-address-card"></i>Order History</Link>
+                                        <hr className="bg-success mr-n5" />
+                                        <Link className="nav-link " to="/sign-out"><i class="fas fa-sign-out-alt"></i> Sign Out  </Link>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-8 mt-0">
-                            <div className="card-mb-3  content">
-                                <h1 className="m-3 pt-3 text-center">Profile Details</h1>
+                        <div className="col-md-9 mt-0">
+                            <div className="card-mb-3 content mt-1 ml-n2">
+                                <div className="card-header">
+                                    <h1 className=" text-center">Profile Details</h1>
+                                </div>
                                 <div className="card-body">
                                     <div className="row">
                                         <div className="col-md-3 ">
@@ -184,7 +146,7 @@ this.props.history.push('/home')
                                             <h5>{this.state.idNumber}</h5>
                                         </div>
                                     </div>
-                                    <hr/>
+                                    <hr />
                                     <div className="row">
                                         <div className="col-md-3">
                                             <h5>Phone Number </h5>
@@ -194,15 +156,9 @@ this.props.history.push('/home')
                                         </div>
                                     </div>
                                     <hr />
-                                    <div className="row">
-                                        <div className="col-md-3">
-                                            <h5>Address </h5>
-                                        </div>
-                                        <div className="col-md-9 text-secondary">
-                                            <h5>Kothrud, Pune, Maharashtra, 411038 </h5>
-                                            <h5>Nandgaon, Nashik, Maharashtra, 423106</h5>
-                                        </div>
-                                    </div>
+                                    {
+                                        this.state.address && <AddressCard address={this.state.address} />
+                                    }
                                 </div>
                             </div>
                             <div className="card-mb-3 content">
@@ -210,17 +166,23 @@ this.props.history.push('/home')
                                 <div className="card-body">
                                     <div className="row">
                                         <div className="col-md-3">
-                                            <h5>Booking Dates </h5>
+                                            <h5>Total No. Bookings </h5>
                                         </div>
                                         <div className="col-md-9 text-secondary">
-                                            <h5>This is all information about booking on our site </h5>
+                                            <h5>{this.state.bookings && this.state.bookings.length}</h5>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
+                            <div className="text-center">
+                                {!this.state.viewBooking && <button className="btn btn-outline-info btn-lg focus btn-block" onClick={(e) => { this.setState({ viewBooking: !this.state.viewBooking }) }}> {" "}<i class="fas fa-chevron-down"></i></button>}
+                                {this.state.viewBooking && <button className="btn btn-outline-info btn-lg focus btn-block" onClick={(e) => { this.setState({ viewBooking: !this.state.viewBooking }) }}> {" "}<i class="fas fa-chevron-up"></i></button>}
+                            </div>
                         </div>
-
                     </div>
+                    {this.state.bookings.length > 0 && this.state.viewBooking &&
+                        <BookingsCard bookings={this.state.bookings} viewBooking={this.state.viewBooking} />}
                 </div>
             </div>
         );

@@ -1,6 +1,5 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Navbar from "./Components/Navigation/Navbar";
 import Footer from "./Components/Footer";
 import About from "./Common/Pages/About";
 import Contact from "./Common/Pages/Contact";
@@ -8,41 +7,104 @@ import LoginPage from "./Common/LoginPage"
 import Home from "./Common/Pages/Home"
 import UserProfile from "./CustomerScreen/UserProfile"
 import ViewProfile from "./CustomerScreen/ViewProfile"
-import UserRegister from "./CustomerScreen/UserRegistration"
+import UserRegister from "./Dups/UserRegistration1"
 import Example from "./CustomerScreen/Example"
 import FileUpload from "./CustomerScreen/FileUpload"
 import SignUpPage from "./CustomerScreen/SignUpPage"
 import HomePage from "./Admin/HomePage";
-
-//import Dashboard from "./Admin/components/pages/Dashboard";
-
+import EquipmentsUnderCategoryPage from './Admin/AdminPages/EquipmentsUnderCategoryPage';
+import EquipmentsUnderCategory from './Common/Pages/EquipmentsUnderCategory'
+import AddEquipment from './Admin/AdminPages/AddEquipment';
+import CategoryPage from './Admin/AdminPages/AllCategoryPage';
+import AddCategoryPage from './Admin/AdminPages/AddCategoryPage'
+import UpdateEquipment from './Admin/AdminPages/UpdateEquipment'
+import AddEqui from './Admin/AddEqui';
+import AllEquipmentsToSold from './Common/Pages/AllEquipments';
+import SigninUsingHook from './Dups/SigninUsingHook';
+import AllUsersList from "./Admin/AdminPages/AllUsersList";
+import AllUsersListCopy from "./Admin/AdminPages/AllUsersListCopy";
+import AllEquipments from "./Admin/AdminPages/AllEquipments";
+import EquipmentsDetails from "./Common/Pages/EquipmentsDetails";
+import RentLine from "./CustomerScreen/RentLine";
+import TermAndConditionPopup from "./CustomerScreen/TermAndConditionPopup";
+import AddOrUpdateAddress from "./CustomerScreen/AddOrUpdateAddress";
+import SignoutPage from "./Common/Pages/SignoutPage";
+import BookNow from "./CustomerScreen/BookNow";
+import UpdateUserProfile from "./CustomerScreen/UpdateUserProfile";
+import OrderHistory from "./CustomerScreen/OrderHistory";
+import BookingDetails from "./CustomerScreen/BookingDetails";
+// import UserRegistration1 from "./CustomerScreen/UserRegistration";
+import UserRegistration from './CustomerScreen/UserRegistration'
+import ViewEquiepment from "./Admin/AdminPages/ViewEquiepment";
+import BookingDetailsAll from "./Admin/AdminPages/BookingDetails";
+import ForgotPassword from "./Common/ForgotPassword";
+import ResetPassword from "./Common/ResetPassword";
+import Bookings from "./Admin/AdminPages/Bookings";
+import Chart from "./Admin/AdminPages/BookingChart";
+import MakeNewAdmin from "./Admin/AdminPages/MakeNewAdmin";
+import NewEquipments from "./Admin/AdminPages/NewEquipments";
+import PageNotFound from './Common/Pages/PageNotFound';
 function App() {
   return (
-    <div className="App">
+    <div>
       <Router>
-       {/*<Navbar/>*/}
-       <HomePage/>
+        {/*<Navbar/>*/}
+
         <div >
-        {/*window.localStorage.getItem("user_role")!=="ADMIN" &&<Navbar />*/}
+          {/*window.localStorage.getItem("user_role")!=="ADMIN" &&<Navbar />*/}
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/home" exact component={Home} />
             <Route path="/about_us" exact component={About} />
             <Route path="/contact_us" exact component={Contact} />
-            <Route path="/sign_up" exact component={UserRegister} />
-
+            <Route path="/sign_up2" exact component={UserRegister} />
+            <Route path="/update-profile" component={UpdateUserProfile} />
+            <Route path="/sign_up" component={UserRegistration} />
             <Route path="/sign_in" exact component={LoginPage} />
+            <Route path="/forgot-password" exact component={ForgotPassword} />
+            <Route path="/reset-password/:userName/token=/:token" exact component={ResetPassword} />
             <Route path="/user_profile" component={UserProfile} />
             <Route path="/view_profile" component={ViewProfile} />
             <Route path="/upload_file" component={FileUpload} />
             <Route path="/myaccount/profile" component={ViewProfile} />
+            <Route path="/all-equpment-to-sold" component={AllEquipmentsToSold} />
+            <Route path="/show-equipments-details/:id/:equipName" component={EquipmentsDetails} />
+            <Route path="/show-equipments-under-category/:catId/:catName" component={EquipmentsUnderCategory} />
             <Route path="/example" component={Example} />
-
+            <Route path="/rent-line" component={RentLine} />
+            <Route path="/term-and-cond" component={TermAndConditionPopup} />
+            <Route path="/update-address" component={AddOrUpdateAddress} />
+            <Route path="/book-now" component={BookNow} />
+            <Route path="/order-history" component={OrderHistory} />
+            <Route path="/booking-details/:id" component={BookingDetails} />
+            <Route path="/sign-out" component={SignoutPage} />
             <Route path="/sign_up1" component={SignUpPage} />
-            <Route path="/admin_home" component={HomePage} />
+            <Route path="/sign-in-hook" component={SigninUsingHook} />
           </Switch>
+          {window.localStorage.getItem("user_role") === "CUSTOMER" && <Footer />}
+          {
+            window.localStorage.getItem("user_role") === "ADMIN" &&
+            <Switch>
+              <Route path="/admin_home" component={HomePage} />
+              <Route path="/show-all-category" component={CategoryPage} />
+              <Route path="/add-category" component={AddCategoryPage} />
+              <Route path="/fatch-all-user" component={AllUsersList} />
+              <Route path="/add-equipment-in-category/:id" component={AddEquipment} />
+              <Route path="/equipment-under-category/:id" component={EquipmentsUnderCategoryPage} />
+              <Route path="/equipment-all" component={AllEquipments} />
+              <Route path="/new-equipment" component={NewEquipments} />
+              <Route path="/update-equipment/:id" component={UpdateEquipment} />
+              <Route path="/view-booking-details/:id" component={BookingDetailsAll} />
+              <Route path="/view-equipment/:id" component={ViewEquiepment} />
+              <Route path="/bookings" component={Bookings}></Route>
+              <Route path="/add-Equi/:id" component={AddEqui} />
+              <Route path="/fatch-all-user-copy" component={AllUsersListCopy} />
+              <Route path="/chart" component={Chart} />
+              <Route path="/make-new-admin" component={MakeNewAdmin} />
+            </Switch>
+          }
         </div>
-        <Footer />
+
       </Router>
     </div>
   );

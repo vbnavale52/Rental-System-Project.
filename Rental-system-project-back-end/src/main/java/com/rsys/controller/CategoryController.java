@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rsys.dto.ResponseDTO;
 import com.rsys.pojos.entity.Category;
 import com.rsys.services.interfaces.ICategoryService;
+import com.rsys.services.interfaces.ICloudinaryService;
 
 @RestController
 @RequestMapping("/api/category")
@@ -23,6 +26,8 @@ import com.rsys.services.interfaces.ICategoryService;
 public class CategoryController {
 	@Autowired
 	private ICategoryService categoryService;
+	@Autowired
+	private ICloudinaryService cloudinaryService;
 
 	public CategoryController() {
 
@@ -47,7 +52,7 @@ public class CategoryController {
 			return new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR, null, "Unable to find category");
 		}
 	}
-	
+
 	@GetMapping("/find-category-by-name/{catName}")
 	public ResponseDTO<?> getCategoryByName(@NotNull @PathVariable String catName) {
 		try {
@@ -57,18 +62,28 @@ public class CategoryController {
 			return new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR, null, "Unable to find category");
 		}
 	}
+	/*
+	 * @PostMapping("/add-category") public ResponseDTO<?>
+	 * addNewCategory(@RequestBody Category category) { try { return new
+	 * ResponseDTO<>(HttpStatus.OK, categoryService.addNewCategory(category),
+	 * "Category added sucessfully"); } catch (Exception e) { return new
+	 * ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR, null,
+	 * "Unable to add category......"); } }
+	 */
 
-	@PostMapping("/add-category")
-	public ResponseDTO<?> addNewCategory(@RequestBody Category category) {
+	@PostMapping("/add-category/{catName}")
+	public ResponseDTO<?> addNewCategory(@PathVariable String catName, @RequestParam("file") MultipartFile file) {
 		try {
-			return new ResponseDTO<>(HttpStatus.OK, categoryService.addNewCategory(category),
+			System.out.println("File is invoked");
+			String url = cloudinaryService.uploadFile(file);
+			return new ResponseDTO<>(HttpStatus.OK, categoryService.addNewCategory(catName,url),
 					"Category added sucessfully");
 		} catch (Exception e) {
 			return new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR, null, "Unable to add category......");
 		}
 	}
 
-	@DeleteMapping("/fetch_category/{catId}")
+	@DeleteMapping("remove-category/{catId}")
 	public ResponseDTO<?> removeCategory(@PathVariable int catId) {
 		try {
 			return new ResponseDTO<>(HttpStatus.OK, categoryService.removeCategory(catId),

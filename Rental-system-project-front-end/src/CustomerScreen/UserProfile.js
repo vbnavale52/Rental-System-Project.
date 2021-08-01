@@ -1,6 +1,9 @@
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import UserService from "../Services/UserServices";
-import React, { Component } from "react";
+import CameraImage from "./Images/Camera_Image.jpg"
+import Navbar from "../Components/Navigation/Navbar";
+import Sidebar from "../Components/Navigation/Sidebar";
 
 class UserProfile extends Component {
     constructor(props) {
@@ -18,7 +21,6 @@ class UserProfile extends Component {
         };
         this.registerUser = this.registerUser.bind(this);
         this.changeImageHandler = this.changeImageHandler.bind(this);
-        this.userProfilePicture = this.userProfilePicture.bind(this);
     }
 
     onChange = (event) => {
@@ -26,19 +28,24 @@ class UserProfile extends Component {
     }
 
     changeImageHandler = (event) => {
-        this.setState({ uploadFile: event.target.files[0] });
-        this.userProfilePicture()
-    }
-    async userProfilePicture() {
         const formData = new FormData();
-        formData.append('file', this.state.uploadFile);
+        formData.append('file', event.target.files[0]);
         UserService.fileUpload(formData).then(res => {
             res.data.result != null && this.setState({ profileImage: res.data.result });
             console.log(res.data.result);
-            return res.data.result;
         });
     }
-
+    /*
+    userProfilePicture() {
+            const formData = new FormData();
+            formData.append('file', this.state.uploadFile);
+            UserService.fileUpload(formData).then(res => {
+                res.data.result != null && this.setState({ profileImage: res.data.result });
+                console.log(res.data.result);
+                return res.data.result;
+            });
+        }
+    */
     registerUser = (e) => {
         e.preventDefault()
         //this.userProfilePicture();
@@ -78,12 +85,12 @@ class UserProfile extends Component {
             if (res.data.result === null) {
                 alert(res.data.message);
                 this.setState({
-                    firstName: "", lastName: "", dateOfBirth: "", phoneNumber: "", email: "", profileImage: "",
+                    firstName: "", lastName: "", dateOfBirth: "", phoneNumber: "", email: "", profileImage: "", idNumber: "",
                 });
                 this.props.history.push("/user_profile");
             }
             else {
-                this.props.history.push("/signin");
+                this.props.history.push("/sign_in");
             }
         })
     };
@@ -95,124 +102,138 @@ class UserProfile extends Component {
     render() {
         return (
             <div>
-            <br/>
-            <br/>
-            <br/>
-                <div className="card img-rounded col-md-4 offset-md-4 offset-md-4" style={{ backgroundColor: 'OldLace' }} >
-                    <h2 className="text-center" style={{ color: "chocolate" }}>Sign Up New User </h2>
-                    <div className="card-body ">
-                        <img style={{ width: "190px" }}
-                            src={window.localStorage.getItem("user_image")}
-                            alt="profile-img"
-                            className="profile-img-card"
-                        />
-                        <br />
-                        <div className="form">
-                            <div className="row mb-3">
-                                <label className="col-sm-4 col-form-label">Choose images :</label>
-                                <div className="col-sm-8">
-                                    <input type="file" onChange={this.changeImageHandler} />
+                <Navbar />
+                <div className="row ml-2 mt-2 mb-2 mr-2 ">
+                    <div className="col col-md-3 mt-1  ">
+                        <Sidebar />
+                    </div>
+                    <div className="col card img-rounded mt-1">
+                        <div className="row" >
+                            <div className="col-md-4" style={{ marginLeft: "-14px", marginRight: "-14px" }}>
+                                <div className="cart text-center rounded sidebar " >
+                                    <div className="card-body">
+                                        <div className="mt-3">
+                                            <img
+                                                src={CameraImage}
+                                                alt="profile-img"
+                                                className="rounded-circle"
+                                                style={{ width: "100%" }}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row mb-4" >
-                                <label className="col-sm-3 col-form-label ">First Name</label>
-                                <div className="col-sm-8">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="firstName"
-                                        value={this.state.firstName}
-                                        onChange={this.onChange}
-                                        required=""
+                            <div className="card col rounded content" >
+                                <div className="card-header">
+                                    <h2 className="text-center" >User Profile</h2>
+                                </div>
+                                <div className="card-body">
+                                    <img style={{ width: "190px" }}
+                                        src={window.localStorage.getItem("user_image")}
+                                        alt={this.state.profileImage}
+                                        className="profile-img-card"
                                     />
-
+                                    <div className="form">
+                                        <div className="row mb-3">
+                                            <label className="col-sm-4 col-form-label col-form-label-lg">Choose images</label>
+                                            <div className="col-sm-8">
+                                                <input className="form-control-lg" type="file" onChange={this.changeImageHandler} />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4" >
+                                            <label className="col-sm-3 col-form-label col-form-label-lg">First Name</label>
+                                            <div className="col-sm-9">
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-control-lg"
+                                                    name="firstName"
+                                                    value={this.state.firstName}
+                                                    onChange={this.onChange}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <label className="col-sm-3 col-form-label col-form-label-lg">Last Name</label>
+                                            <div className="col-sm-9">
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-control-lg"
+                                                    name="lastName"
+                                                    value={this.state.lastName}
+                                                    onChange={this.onChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <label className="col-sm-3 col-form-label col-form-label-lg">Date Of Birth</label>
+                                            <div className="col-sm-9">
+                                                <input
+                                                    type="date"
+                                                    className="form-control form-control-lg"
+                                                    name="dateOfBirth"
+                                                    value={this.state.dateOfBirth}
+                                                    onChange={this.onChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <label className="col-sm-3 col-form-label col-form-label-lg">Phone Number</label>
+                                            <div className="col-sm-9">
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-control-lg"
+                                                    name="phoneNumber"
+                                                    value={this.state.phoneNumber}
+                                                    onChange={this.onChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <label className="col-sm-3 col-form-label col-form-label-lg">Email</label>
+                                            <div className="col-sm-9">
+                                                <input
+                                                    type="email"
+                                                    className="form-control form-control-lg"
+                                                    name="email"
+                                                    value={this.state.email}
+                                                    onChange={this.onChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <label className="col-sm-3 col-form-label col-form-label-lg">Id Number</label>
+                                            <div className="col-sm-9">
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-control-lg"
+                                                    name="idNumber"
+                                                    value={this.state.idNumber}
+                                                    onChange={this.onChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="card-footer mb-3">
+                                            <div className="float-end mt-2">
+                                                <button className="btn btn-outline-success btn-block btn-lg" onClick={this.registerUser}>Continue <i class="fas fa-arrow-circle-right"></i></button>
+                                            </div>
+                                            <div className="float-end mt-2">
+                                                <button className="btn btn-outline-danger btn-block btn-lg" onClick={this.cancel.bind(this)}><i class="fas fa-arrow-circle-left"></i>Cancel</button>
+                                            </div>
+                                            <div className="float-end mt-2">
+                                                Already have an account? <Link to="/login">Login here </Link>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="row mb-4">
-                                <label className="col-sm-3 col-form-label">Last Name</label>
-                                <div className="col-sm-8">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="lastName"
-                                        value={this.state.lastName}
-                                        onChange={this.onChange}
-                                        required
-                                    />
-
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <label className="col-sm-3 col-form-label">Date Of Birth</label>
-                                <div className="col-sm-8">
-                                    <input
-                                        type="date"
-                                        className="form-control"
-                                        name="dateOfBirth"
-                                        value={this.state.dateOfBirth}
-                                        onChange={this.onChange}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <label className="col-sm-3 col-form-label">Phone Number</label>
-                                <div className="col-sm-8">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="phoneNumber"
-                                        value={this.state.phoneNumber}
-                                        onChange={this.onChange}
-                                        required
-                                    />
-                                </div>
-                            </div>
-
-                            <div class="row mb-4">
-                                <label className="col-sm-3 col-form-label">Email</label>
-                                <div className="col-sm-8">
-                                    <input
-                                        type="email"
-                                        className="form-control"
-                                        name="email"
-                                        value={this.state.email}
-                                        onChange={this.onChange}
-                                        required
-                                    />
-
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <label className="col-sm-3 col-form-label">Id Number</label>
-                                <div className="col-sm-8">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="idNumber"
-                                        value={this.state.idNumber}
-                                        onChange={this.onChange}
-                                        required
-                                    />
-
-                                </div>
-                            </div>
-
-                            <div className="mb-3">
-                                <button className="btn btn-success float-start" onClick={this.registerUser} > Register </button>
-                                <button className=" btn-danger btn" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px", backgroundColor: "Tomato" }}>Cancel</button>
-                                <div className="float-end">
-                                    Existing User? <Link to="/login">Login here </Link>
-                                </div>
-                                <br></br>
-
-
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         );
     }

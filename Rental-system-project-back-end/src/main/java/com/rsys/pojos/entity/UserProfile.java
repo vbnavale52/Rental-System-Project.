@@ -31,7 +31,7 @@ public class UserProfile extends BaseEntity {
 
 	@NotNull
 	@Column(length = 10, nullable = true)
-	private Long phoneNumber;
+	private long phoneNumber;
 
 	@NotNull
 	@Column(nullable = false)
@@ -43,11 +43,15 @@ public class UserProfile extends BaseEntity {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
-
+	
+	@JsonIgnore
+	@OneToOne(targetEntity = UserAddress.class, mappedBy = "userProfile")
+	private UserAddress userAddress;
+	/*
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", nullable = true)
-	private UserAddress userAddress;
+	private UserAddress userAddress;*/
 
 	public UserProfile() {
 
@@ -88,11 +92,11 @@ public class UserProfile extends BaseEntity {
 		this.email = email;
 	}
 
-	public Long getPhoneNumber() {
+	public long getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(Long phoneNumber) {
+	public void setPhoneNumber(long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

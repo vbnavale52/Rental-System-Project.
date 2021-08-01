@@ -1,15 +1,13 @@
 package com.rsys.pojos.entity;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 @Entity
 public class PasswordResetToken {
@@ -18,24 +16,26 @@ public class PasswordResetToken {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-	@JoinColumn(nullable = false, name = "user_id")
-	private User user;
+	private int userId;
 
 	private String token;
 	@Column(columnDefinition = "TIMESTAMP")
 	private LocalDateTime tokenCreationDate;
 
+	private LocalTime tokenTime;
+
 	public PasswordResetToken() {
 
 	}
 
-	public PasswordResetToken(Integer id, User user, String token, LocalDateTime tokenCreationDate) {
+	public PasswordResetToken(Integer id, int userId, String token, LocalDateTime tokenCreationDate,
+			LocalTime tokenTime) {
 		super();
 		this.id = id;
-		this.user = user;
+		this.userId = userId;
 		this.token = token;
 		this.tokenCreationDate = tokenCreationDate;
+		this.tokenTime = tokenTime;
 	}
 
 	public Integer getId() {
@@ -46,12 +46,12 @@ public class PasswordResetToken {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getToken() {
@@ -70,9 +70,17 @@ public class PasswordResetToken {
 		this.tokenCreationDate = tokenCreationDate;
 	}
 
+	public LocalTime getTokenTime() {
+		return tokenTime;
+	}
+
+	public void setTokenTime(LocalTime tokenTime) {
+		this.tokenTime = tokenTime;
+	}
+
 	@Override
 	public String toString() {
-		return "PasswordResetToken [id=" + id + ", user=" + user + ", token=" + token + ", tokenCreationDate="
+		return "PasswordResetToken [id=" + id + ", userId=" + userId + ", token=" + token + ", tokenCreationDate="
 				+ tokenCreationDate + "]";
 	}
 

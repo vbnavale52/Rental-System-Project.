@@ -12,34 +12,32 @@ import javax.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 public class UserDetailsOutDTO {
-	@NotNull
+
 	private int userId;
 
-	@NotNull
+	private String userName;
+
 	private String firstName;
 
-	@NotNull
 	private String lastName;
 	@NotNull
-	private int phoneNumber;
+	private long phoneNumber;
 
-	@NotNull
 	private String email;
 
-	@NotNull
 	private LocalDate dateOfBirth;
 
-	private MultipartFile profileImage;
+	private String profileImage;
 
 	public UserDetailsOutDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserDetailsOutDTO(@NotNull int userId, @NotNull String firstName, @NotNull String lastName,
-			@NotNull int phoneNumber, @NotNull String email, @NotNull LocalDate dateOfBirth,
-			MultipartFile profileImage) {
+	public UserDetailsOutDTO(int userId, String userName, String firstName, String lastName, long phoneNumber,
+			String email, LocalDate dateOfBirth, String profileImage) {
 		super();
 		this.userId = userId;
+		this.userName = userName;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
@@ -52,8 +50,16 @@ public class UserDetailsOutDTO {
 		return userId;
 	}
 
-	public void setUserId(@NotNull int userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getFirstName() {
@@ -72,6 +78,14 @@ public class UserDetailsOutDTO {
 		this.lastName = lastName;
 	}
 
+	public long getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(long phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -88,19 +102,11 @@ public class UserDetailsOutDTO {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public int getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(int phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public MultipartFile getProfileImage() {
+	public String getProfileImage() {
 		return profileImage;
 	}
 
-	public void setProfileImage(MultipartFile profileImage) {
+	public void setProfileImage(String profileImage) {
 		this.profileImage = profileImage;
 	}
 

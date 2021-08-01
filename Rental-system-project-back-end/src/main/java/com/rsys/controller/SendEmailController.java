@@ -24,7 +24,7 @@ public class SendEmailController {
     @GetMapping("/testSendEmail" )
     public ResponseDTO<?>  sendEmail(){
         try {
-            emailService.sendMail("gauri.vaishali.arun@gmail.com", "Test Subject", "TestMessage");
+            emailService.sendMail("samadhan563@gmail.com", "Test Subject", "TestMessage");
             return new ResponseDTO<>(HttpStatus.OK,null,"Sucessfull login...");
 
         } catch (MessagingException e) {

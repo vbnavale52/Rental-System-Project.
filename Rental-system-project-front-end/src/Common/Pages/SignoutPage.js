@@ -18,7 +18,13 @@ class SignoutPage extends Component {
         window.localStorage.removeItem("user_dob");
         window.localStorage.removeItem("user_phone");
         window.localStorage.removeItem("user_image");
-        alert("Sign ou successfuully ! tacke care.........")
+        window.localStorage.removeItem("add");
+        window.localStorage.removeItem("user_idNum");
+        window.localStorage.removeItem("total_price");
+        window.localStorage.removeItem("cart_size");
+        window.localStorage.removeItem("orderId");
+        
+        alert("Sign ou successfully ! take care........")
         this.props.history.push('/');
     }
     render() {

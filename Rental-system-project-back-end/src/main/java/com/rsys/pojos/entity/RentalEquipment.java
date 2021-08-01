@@ -1,16 +1,18 @@
 package com.rsys.pojos.entity;
 
-import javax.persistence.CascadeType;
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "rental_equipment")
@@ -35,24 +37,25 @@ public class RentalEquipment extends BaseEntity {
 	@Column(length = 100, nullable = false)
 	private String image;
 
-	@Column(length = 100, nullable = false)
+	@Column(length = 250, nullable = false)
 	private String decription;
-	
-	@OneToOne(targetEntity = RentLine.class, mappedBy = "equiepment")
-	private RentLine rentLine;
 
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	private LocalDate registrationDate;
+
+	private LocalDate updatedDate;
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "equipment_category", nullable = false)
 	private Category category;
-	
-	
 
 	public RentalEquipment() {
-	
+
 	}
 
 	public RentalEquipment(String equipmentName, String brand, int avialableQuantity, double rentPerDay,
-			double offerDiscount, double finalRent, double delayCharges, String image, String decription) {
+			double offerDiscount, double finalRent, double delayCharges, String image, String decription,
+			LocalDate registrationDate, LocalDate updatedDate) {
 		super();
 		this.equipmentName = equipmentName;
 		this.brand = brand;
@@ -63,6 +66,8 @@ public class RentalEquipment extends BaseEntity {
 		this.delayCharges = delayCharges;
 		this.image = image;
 		this.decription = decription;
+		this.registrationDate = registrationDate;
+		this.updatedDate = updatedDate;
 	}
 
 	public String getEquipmentName() {
@@ -137,6 +142,22 @@ public class RentalEquipment extends BaseEntity {
 		this.decription = decription;
 	}
 
+	public LocalDate getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(LocalDate registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
+	public LocalDate getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(LocalDate updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
 	public Category getCategory() {
 		return category;
 	}
@@ -147,10 +168,10 @@ public class RentalEquipment extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "RentalEquiepment [equipmentName=" + equipmentName + ", brand=" + brand + ", avialableQuantity="
+		return "RentalEquipment [equipmentName=" + equipmentName + ", brand=" + brand + ", avialableQuantity="
 				+ avialableQuantity + ", rentPerDay=" + rentPerDay + ", offerDiscount=" + offerDiscount + ", finalRent="
 				+ finalRent + ", delayCharges=" + delayCharges + ", image=" + image + ", decription=" + decription
-				+ ", getId()=" + getId() + "]";
+				+ ", registrationDate=" + registrationDate + ", updatedDate=" + updatedDate + "]";
 	}
 
 }

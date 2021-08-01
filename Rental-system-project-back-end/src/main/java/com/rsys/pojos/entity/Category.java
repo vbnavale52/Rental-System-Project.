@@ -2,14 +2,11 @@ package com.rsys.pojos.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "equipement_category")
@@ -19,8 +16,7 @@ public class Category extends BaseEntity {
 	private String categoryName;
 	@Column(length = 200, nullable = true)
 	private String categoryImage;
-
-	@OneToMany(mappedBy = "category")
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<RentalEquipment> equipments;
 
 	public Category() {

@@ -9,11 +9,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@Getter
-@Setter
+
 public class UserProfileInDto {
-	@NotNull
+	
+	
 	private int userId;
 
 	@NotNull
@@ -35,6 +34,10 @@ public class UserProfileInDto {
 	private LocalDate dateOfBirth;
 
 	private String profileImage;
+	
+	public UserProfileInDto() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public UserProfileInDto(@NotNull int userId, @NotNull String firstName, @NotNull String lastName,
 			@NotNull Long phoneNumber, @NotNull String email, @NotNull String idNumber, @NotNull LocalDate dateOfBirth,

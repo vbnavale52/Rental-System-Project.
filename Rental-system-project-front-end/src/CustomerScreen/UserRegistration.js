@@ -1,294 +1,256 @@
-import "./ViewProfile.css";
+import "./Styles/ViewProfile.css";
 import CameraImage from "./Images/Camera_Image.jpg"
 import SignUp from "./Images/SignUp.png";
 import { Link } from "react-router-dom";
 import UserService from "../Services/UserServices";
-import React, { Component } from "react";
+import React, { useState } from "react";
+import Sidebar from "../Components/Navigation/Sidebar";
+import Navbar from "../Components/Navigation/Navbar";
 
-class UserRegistration extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+const UserRegistration = (props) => {
+    const [error, setError] = useState(false);
+    const [viewPass, setViewPass] = useState("password")
+    const [errors, setErrors] = useState(
+        {
             userName: "",
             password: "",
             confirmPassword: "",
             message: "",
-        };
-        this.registerUser = this.registerUser.bind(this);
+        }
+    );
+
+    const [newUser, setNewUser] = useState({
+        userName: "",
+        password: "",
+        confirmPassword: "",
+        message: "",
+    });
+
+    const onChange = (event) => {
+        const { name, value } = event.target;
+        setNewUser((preValue) => {
+            return {
+                ...preValue,
+                [name]: value,
+            };
+        })
     }
 
-    onChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
+    const validateInfo = (values) => {
+        let errors = {};
+
+        if (!values.userName) {
+            setErrors((preValue) => { return { ...preValue, ['userName']: 'Username required' } })
+            setError(true);
+        }
+        else if (!/^[A-Za-z]+/.test(values.userName.trim())) {
+            setErrors((preValue) => { return { ...preValue, ['userName']: "Enter a valid name" } })
+            setError(true);
+        }
+        if (!values.password) {
+            setErrors((preValue) => { return { ...preValue, ['password']: 'Password required' } })
+            setError(true);
+        } else if (values.password.length < 6) {
+            errors.password = 'Password needs to be 6 characters or more';
+            setError(true);
+            setErrors((preValue) => { return { ...preValue, ['password']: 'Password needs to be 6 characters or more' } })
+            setError(true);
+        }
+
+        if (!values.confirmPassword) {
+            setErrors((preValue) => { return { ...preValue, ['confirmPassword']: "Confirm password required" } })
+            setError(true);
+        } else if (values.confirmPassword !== values.password) {
+            setErrors((preValue) => { return { ...preValue, ['confirmPassword']: "Passwords do not match" } })
+            setError(true);
+        }
     }
 
-    registerUser = (e) => {
+    const registerUser = (e) => {
         e.preventDefault();
 
         let user = {
-            userName: this.state.userName,
-            password: this.state.password,
-            confirmPassword: this.state.confirmPassword,
+            userName: newUser.userName,
+            password: newUser.password,
+            confirmPassword: newUser.confirmPassword,
         };
-        UserService.registerNewUser(user).then((res) => {
-            res.data.result != null && alert("SignUp successfully");
-            if (res.data.result === null) {
-                alert(" Sign up failed..............." + res.data.message);
-                this.setState({
-                    firstName: "", lastName: "", dateOfBirth: "", phoneNumber: "", email: "", password: "",
-                    confirmPassword: ""
-                });
-                this.props.history.push("/create-account");
-            } else {
-                alert(res.data.message);
-                this.props.history.push("/user_profile");
+        validateInfo(user);
+        setTimeout(() => {
+            if (!error) {
+                console.log(JSON.stringify(user));
+                UserService.registerNewUser(user).then((res) => {
+                    // res.data.result != null && alert("SignUp successfully");
+                    if (res.data.result === null) {
+                        alert(" Sign up failed..............." + res.data.message);
+                        setNewUser({ userName: "", password: "", confirmPassword: "" });
+                        props.history.push("/sign_up");
+                    } else {
+                        alert(res.data.message);
+                        props.history.push("/sign_in");
+                    }
+                })
             }
-        })
+            else {
+                alert("Plese retry........")
+                setNewUser({ userName: "", password: "", confirmPassword: "" });
+                //window.lo.cation.reload();
+            }
+        }, 300);
     };
 
-
-    cancel() {
-        this.props.history.push('/')
+    const viewPassword = () => {
+        if (viewPass === "password")
+            setViewPass("text")
+        else
+            setViewPass("password")
     }
 
+    const cancel = () => {
+        props.history.push('/')
+    }
 
-    render() {
-        return (
-            <div className="container">
-                <div className="main" >
-
-                    <div className="row">
-                        <div className="col-md-4 mt-1">
-                            <div className="cart text-center sidebar">
-                                <div className="card-body bg">
-                                    <div className="mt-3">
-                                        <img
-                                            src={CameraImage}
-                                            alt="profile-img"
-                                            className="rounded-circle"
-                                            style={{ width: "100%" }}
-                                        />
-                                    </div>
-                                    <div className="mt-3">                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-8 mt-0">
-                            <div className="card-mb-3 content">
-                                <h2 className="text-center" style={{ color: "chocolate" }}>Register New </h2>
-                                <div className="card-body ">
-                                    <div className="mt-3 text-center">
-                                        <img
-                                            src={SignUp}
-                                            alt="profile-img"
-                                            className="rounded-circle "
-                                            style={{ width: "20%" }}
-                                        />
-                                    </div>
-                                    <br />
-                                    <div className="form">
-                                        <div class="row mb-4" >
-                                            <label className="col-sm-3 col-form-label "><i class="fas fa-user-check"></i>User Name</label>
-                                            <div className="col-sm-7">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="userName"
-                                                    value={this.state.userName}
-                                                    onChange={this.onChange}
-                                                    required=""
-                                                />
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-4">
-                                            <label className="col-sm-3 col-form-label "><i class="fas fa-key"></i> Password</label>
-                                            <div className="col-sm-7">
-                                                <input
-                                                    type="password"
-                                                    className="form-control"
-                                                    name="password"
-                                                    placeholder={() => { return <i class="fas fa-key"></i> }}
-                                                    value={this.state.password}
-                                                    onChange={this.onChange}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-4">
-                                            <label className="col-sm-3 col-form-label "><i class="fas fa-key"></i> Confirm Password</label>
-                                            <div className="col-sm-7">
-                                                <input
-                                                    type="password"
-                                                    className="form-control"
-                                                    name="confirmPassword"
-                                                    value={this.state.confirmPassword}
-                                                    onChange={this.onChange}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="mb-3">
-                                            <button className="btn btn-success float-start" onClick={this.registerUser} >
-                                                <i class="fas fa-plus-circle"></i>Sign up</button>
-                                            <button className=" btn-danger btn" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px", backgroundColor: "Tomato" }}><i class="fas fa-backward"></i>Cancel</button>
-                                            <div className="float-end">
-                                                Existing User? <Link to="/sign_in"> <i class="fas fa-sign-in-alt"></i>Login here </Link>
-                                            </div>
-                                            <br></br>
-
-
-                                        </div>
-                                    </div>   </div>
-                            </div>
-                        </div>   </div>
+    return (
+        <div>
+            <Navbar />
+            <div className="row ml-2 mt-2 mb-2 mr-2 ">
+                <div className="col col-md-3 mt-1  ">
+                    <Sidebar />
                 </div>
-            </div>
-
-        );
-    }
-}
-export default UserRegistration;
-
-
-
-
-
-/*
-import "../App.css";
-import { Link } from "react-router-dom";
-import UserService from "../Services/UserServices";
-import React, { Component } from "react";
-
-class UserRegistration extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            userName: "",
-            password: "",
-            confirmPassword: "",
-            message: "",
-        };
-        this.registerUser = this.registerUser.bind(this);
-    }
-
-    onChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
-    }
-
-    registerUser = (e) => {
-        e.preventDefault();
-
-        let user = {
-            userName: this.state.userName,
-            password: this.state.password,
-            confirmPassword: this.state.confirmPassword,
-        };
-        UserService.registerNewUser(user).then((res) => {
-            res.data.result != null && alert("SignUp successfully");
-            if (res.data.result === null) {
-                alert(" Sign up failed..............." + res.data.message);
-                this.setState({
-                    firstName: "", lastName: "", dateOfBirth: "", phoneNumber: "", email: "", password: "",
-                    confirmPassword: ""
-                });
-                this.props.history.push("/create-account");
-            } else {
-                alert(res.data.message);
-                this.props.history.push("/user_profile");
-            }
-        })
-    };
-
-
-    cancel() {
-        this.props.history.push('/')
-    }
-
-
-    render() {
-        return (
-            <div>
-            <br/>
-            <br/>
-            <br/>
-
-
-
-
-
-                <div className="card img-rounded col-md-4 offset-md-4 offset-md-4" style={{ backgroundColor: 'OldLace' }} >
-                    <h2 className="text-center" style={{ color: "chocolate" }}>Register New </h2>
-                    <div className="card-body ">
-                        <img style={{ width: "190px" }}
-
-                            alt="profile-img"
-                            className="profile-img-card"
-                        />
-                        <br />
-                        <div className="form">
-                            <div class="row mb-4" >
-                                <label className="col-sm-3 col-form-label ">User Name</label>
-                                <div className="col-sm-8">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="userName"
-                                        value={this.state.userName}
-                                        onChange={this.onChange}
-                                        required=""
-                                    />
-
+                <div className="col mt-1" >
+                    <div className="card">
+                        <div className="card-header" >
+                            <h2 className="text-center">User Registration</h2>
+                        </div>
+                        <div className="row ">
+                            <div className="col-md-3">
+                                <div className="card mr-lg-n4 h-100  bg-secondary">
+                                    <div className="card-body">
+                                        <div className="mt-3">
+                                            <img
+                                                src={CameraImage}
+                                                alt="profile-img"
+                                                className="rounded-circle"
+                                                style={{ width: "100%", height: "600px" }}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="row mb-4">
-                                <label className="col-sm-3 col-form-label">Password</label>
-                                <div className="col-sm-8">
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        name="password"
-                                        value={this.state.password}
-                                        onChange={this.onChange}
-                                        required
-                                    />
+                            <div className="col-md-6 ">
+                                <div className="card h-100 mr-lg-n4">
+                                    {/* <div className="card-header">
+                                        <h2 className="text-center " >User Registration</h2>
+                                    </div> */}
+                                    <div className="card-body ">
+                                        <div className="text-center mt-5 mb-2 ">
+                                            <img
+                                                src={SignUp}
+                                                alt="profile-img"
+                                                className=""
+                                                style={{ width: "35%", height: "35%" }}
+                                            />
+                                        </div>
+                                        <div className="form mt-5">
+                                            <div className="row mb-4">
+                                                <div class="input-group col-md-12">
+                                                    <div class="input-group-prepend">
+                                                        <span className=" input-group-text"><i class="fas fa-user"></i></span>
+                                                    </div>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control form-control-lg"
+                                                        name="userName"
+                                                        value={newUser.userName}
+                                                        onChange={onChange}
+                                                        placeholder="User Name"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="col-md-12">
+                                                    {errors.userName && <p className="alert alert-danger  ">{errors.userName}</p>}
+                                                </div>
+                                            </div>
+                                            <div class=" row mb-4">
+                                                <div class="input-group col-md-12">
+                                                    <div className="input-group-prepend">
+                                                        <span className="input-group-text"><i class="fas fa-key"></i></span>
+                                                    </div>
+                                                    <input
+                                                        type={viewPass}
+                                                        className="form-control form-control-lg"
+                                                        name="password"
+                                                        value={newUser.password}
+                                                        onChange={onChange}
+                                                        placeholder="Password"
+                                                        required
+                                                    />
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary" onClick={viewPassword}><i class="far fa-eye-slash"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-12">
+                                                    {errors.password && <p className="alert alert-danger  ">{errors.password}</p>}
+                                                </div>
+                                            </div>
+                                            <div class=" row mb-4">
+                                                <div class="input-group col-md-12">
+                                                    <div className="input-group-prepend ">
+                                                        <span className="input-group-text"><i class="fas fa-key"></i></span>
+                                                    </div>
+                                                    <input
+                                                        type={viewPass}
+                                                        className="form-control form-control-lg"
+                                                        name="confirmPassword"
+                                                        value={newUser.confirmPassword}
+                                                        onChange={onChange}
+                                                        placeholder="confirmPassword"
+                                                        required
+                                                    />
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary" onClick={viewPassword}><i class="far fa-eye-slash"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-12">
+                                                    {errors.confirmPassword && <p className="alert alert-danger  ">{errors.confirmPassword}</p>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="card-footer bg-light text-dark">
+                                        <div className="row mt-1">
+                                            <div className="col-md-6 ">
+                                                <button className="btn btn-outline-success btn-lg btn-block mt-2" onClick={registerUser} >Sign up <i class="fas fa-plus-circle"></i></button>
+                                            </div>
+                                            <div className="col-md-6 ">
+                                                <button className="btn btn-outline-danger btn-lg btn-block mr-3 mt-2" onClick={cancel} ><i class="fas fa-arrow-circle-left"></i>Cancel</button>
+                                            </div>
+                                        </div>
+                                        <div className="ml-1 mt-1 row col-form-label-lg">
+                                            Already have an account?<Link to="/sign_in" >Login here<i class="fas fa-sign-in-alt"></i></Link>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="row mb-4">
-                                <label className="col-sm-3 col-form-label">Confirm Password</label>
-                                <div className="col-sm-8">
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        name="confirmPassword"
-                                        value={this.state.confirmPassword}
-                                        onChange={this.onChange}
-                                        required
-                                    />
+                            <div className="col-md-3">
+                                <div className="card text-center rounded sidebar bg-secondary">
+                                    <div className="card-body">
+                                        <div className="mt-3">
+                                            <img
+                                                src="https://images.pexels.com/photos/339379/pexels-photo-339379.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
+                                                alt="profile-img"
+                                                className="rounded-circle"
+                                                style={{ width: "100%", height: "600px" }}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="mb-3">
-                                <button className="btn btn-success float-start" onClick={this.registerUser} >
-                                    Register
-                     </button>
-                                <button className=" btn-danger btn" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px", backgroundColor: "Tomato" }}>Cancel</button>
-                                <div className="float-end">
-                                    Existing User? <Link to="/sign_in">Login here </Link>
-                                </div>
-                                <br></br>
-
-
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-        );
-    }
+        </div>
+    );
 }
-export default UserRegistration;*/
+
+export default UserRegistration;

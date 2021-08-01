@@ -1,5 +1,7 @@
 package com.rsys.services.interfaces;
 
+import javax.mail.MessagingException;
+
 import com.rsys.dto.ForgotPasswordDto;
 import com.rsys.dto.LoginDTO;
 import com.rsys.dto.ResetPasswordDTO;
@@ -12,6 +14,6 @@ public interface IAutenticationService {
 
 	User forgotPassword(ForgotPasswordDto forgotPasswordDto);
 
-	User resetPassword(ResetPasswordDTO resetPasswordDTO);
+	User resetPassword(ResetPasswordDTO resetPasswordDTO) throws MessagingException;
 
 }

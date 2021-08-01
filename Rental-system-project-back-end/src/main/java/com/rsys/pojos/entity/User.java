@@ -1,5 +1,7 @@
+
 package com.rsys.pojos.entity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +27,13 @@ public class User extends BaseEntity {
 	private String userName;
 
 	@NotNull
-	@Column(name = "password", length = 30, nullable = false)
+	@Column(name = "password", length = 120, nullable = false)
 	private String password;
 
 	@Transient
 	private String confirmPassword;
+
+	private LocalDate registrationDate;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false/* , columnDefinition = "varchar(10) default 'CUSTOMER'" */)
@@ -42,21 +46,19 @@ public class User extends BaseEntity {
 	@JsonIgnore
 	@OneToMany(targetEntity = RentBooking.class, mappedBy = "user")
 	private List<RentBooking> rentBooking = new ArrayList<>();
-	@JsonIgnore
-	@OneToOne(targetEntity = PasswordResetToken.class, mappedBy = "user")
-	private PasswordResetToken passwordResetToken;
 
 	public User() {
 
 	}
 
-	public User(@NotNull String userName, @NotNull String password, @NotNull String confirmPassword,
-			UserRole userRole) {
+	public User(@NotNull String userName, @NotNull String password, @NotNull String confirmPassword, UserRole userRole,
+			LocalDate registrationDate) {
 		super();
 		this.userName = userName;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
 		this.userRole = userRole;
+		this.registrationDate = registrationDate;
 	}
 
 	public String getUserName() {
@@ -91,6 +93,14 @@ public class User extends BaseEntity {
 		this.userRole = userRole;
 	}
 
+	public LocalDate getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(LocalDate registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
 	public UserProfile getUserProfile() {
 		return userProfile;
 	}
@@ -105,14 +115,6 @@ public class User extends BaseEntity {
 
 	public void setRentBooking(List<RentBooking> rentBooking) {
 		this.rentBooking = rentBooking;
-	}
-
-	public PasswordResetToken getPasswordResetToken() {
-		return passwordResetToken;
-	}
-
-	public void setPasswordResetToken(PasswordResetToken passwordResetToken) {
-		this.passwordResetToken = passwordResetToken;
 	}
 
 	@Override
